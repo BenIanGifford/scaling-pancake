@@ -7,7 +7,16 @@ The light gate is set using a ground pin, 3.3V pin, and pin 2 as sig
 
 The "motor" is currently only wired as an LED off of a ground pin, and pin 1
 
-# Python setup
+# Installation 
+
+Installation is as follows:
+
+`wget https://raw.githubusercontent.com/BenIanGifford/scaling-pancake/master/vending_machine.py`
+
+This is a bad way to install it cause all it will do is downlaod the one file but that is all you really need
+
+
+# Library setup
 
 This requires the onion-gpio-sysfs library put together by Deric-W
 
