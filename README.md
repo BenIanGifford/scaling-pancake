@@ -13,7 +13,9 @@ Installation is as follows:
 
 `wget https://raw.githubusercontent.com/BenIanGifford/scaling-pancake/master/vending_machine.py`
 
-This is a bad way to install it cause all it will do is downlaod the one file but that is all you really need
+This is a bad way to install it cause all it will do is downlaod the one file but that is all you really need for now
+
+To run it just do `python3 ./vending_machine.py`
 
 
 # Library setup
