@@ -25,5 +25,5 @@ Unzips it to ./onion-gpio-sysfs-0.3
 
 Moves the library file to /usr/lib so it can be imported from anywhere
 
-then if space is an issue everything else can be removed
-`rm -rv ./onion-gpio-sysfs-0.3 oniongpio.zip
+Then if space is an issue everything else can be removed with
+`rm -rv ./onion-gpio-sysfs-0.3 oniongpio.zip`
