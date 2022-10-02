@@ -7,7 +7,7 @@ machine_blocked = False
 """Set input pins"""
 pin2 = onionGpio.OnionGpio(2, ignore_busy=True)
 pin2.setDirection(onionGpio.Direction.INPUT)
-print("Outputs set")
+print("Inputs set")
 
 """Set output pins (motors)"""
 pin1 = onionGpio.OnionGpio(1, ignore_busy=True)
@@ -15,22 +15,19 @@ pin1.setDirection(onionGpio.Direction.OUTPUT_LOW)
 print("Outputs set")
 
 
-"""If the machine thinks it's blocked it wont dispense and the program will stop.
-    this is unideal for production but for now it's fine"""
+""" Just defining these things to make the logic easier to understand and help with scalibilty later on"""
 
-while machine_blocked == False:
-
-    """There will be extra logic here later for mqtt inputs.
-    For now its just automatically dispensing"""
-
+def vend_item():
+    """A basic vend cycle with a mosfet motor""" 
     pin1.setValue(onionGpio.Value.HIGH)
     print("Vending")
     time.sleep(2)
     pin1.setValue(onionGpio.Value.LOW)
     print("Motor stopped")
-    
-    """A basic vend cycle with a mosfet motor""" 
+    wait_for_light_gate()
 
+def wait_for_light_gate():
+    
     """This stuff below is the special part that watches for the light gate to be tripped
     It waits .25 seconds then if the gate is open, it syas it's not jammed and prints that it's open
     If the gate is closed, it says there is an object and waits 5 seconds for you to remove it.
@@ -52,5 +49,23 @@ while machine_blocked == False:
                 machine_blocked = True
                 print("Machine blocked")
                 break
+            
             else:
                 print("Vend sucessful")
+
+def wait_for_vend():
+    confirmation = input("Vend? \nYes or No? \n>>> ")
+
+    if  confirmation == "Yes":
+        vend_item()
+    elif confirmation == "No":
+        print("Vend declined")
+    else:
+        print("Bad input. Please say 'Yes' or 'No'")
+
+
+"""If the machine thinks it's blocked it wont dispense and the program will stop.
+    this is unideal for production but for now it's fine"""
+
+while machine_blocked == False:
+    wait_for_vend()
