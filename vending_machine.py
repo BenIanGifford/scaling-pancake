@@ -5,14 +5,12 @@ import onionGpio
 machine_blocked = False
 
 """Set input pins"""
-onionGpio.freeGpio(2)
-pin2 = onionGpio.OnionGpio(2)
+pin2 = onionGpio.OnionGpio(2, ignore_busy=True)
 pin2.setDirection(onionGpio.Direction.INPUT)
 print("Outputs set")
 
 """Set output pins (motors)"""
-onionGpio.freeGpio(1)
-pin1 = onionGpio.OnionGpio(1)
+pin1 = onionGpio.OnionGpio(1, ignore_busy=True)
 pin1.setDirection(onionGpio.Direction.OUTPUT_LOW)
 print("Outputs set")
 
