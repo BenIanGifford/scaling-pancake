@@ -18,15 +18,18 @@ print("Outputs set")
 
 def check_for_block():
     """check if its blocked"""
-    if pin2.getValue.name() == "HIGH":
+    global machine_blocked
+    if pin2.getValue().name == 'HIGH':
         machine_blocked = True
+        print(machine_blocked)
     else:
         machine_blocked = False
         
 def vend_item():
     """A basic vend cycle with a mosfet motor""" 
+    global machine_blocked
     check_for_block()
-    if mchine_blocked == True:
+    if machine_blocked == True:
         print("Blocked")
         exit()
     else:
@@ -37,42 +40,18 @@ def vend_item():
         print("Motor stopped")
         wait_for_light_gate()
 
-def wait_for_light_gate():
-    
-    """This stuff below is the special part that watches for the light gate to be tripped
-    It waits .25 seconds then if the gate is open, it says it's not jammed and prints that it's open
-    If the gate is closed, it says there is an object and waits 5 seconds for you to remove it.
-    If the object is not removed it sets machine blocked to True which stops the program.
-    If the object is removed it says vend sucessful and continues dispensing"""
-    
+def wait_for_light_gate():    
+    global machine_blocked
     time.sleep(1.5)
     check_for_block()
     if machine_blocked == False:
-        rasie Exeption("Vend failed")
+        print("Nothing came out")
+        exit()
+        #raise Exception("Vend failed")
     else:
         print("Item vended")
         exit()
         
-    """for i in range(20):
-        time.sleep(.25)
-
-        if pin2.getValue().name == 'LOW':
-            print("Machine open")
-            machine_blocked = False
-
-        elif pin2.getValue().name == "HIGH":
-            print("Item vended")
-            time.sleep(5)
-
-            if pin2.getValue().name == "HIGH": 
-                machine_blocked = True
-                print("Machine blocked")
-                exit()
-            
-            else:
-                print("Vend sucessful")
-                machine_blocked == False"""
-
 def wait_for_vend():
     confirmation = input("Vend? \nYes or No? \n>>> ")
 
@@ -83,9 +62,4 @@ def wait_for_vend():
     else:
         print("Bad input. Please say 'Yes' or 'No'")
 
-
-"""If the machine thinks it's blocked it wont dispense and the program will stop.
-    this is unideal for production but for now it's fine"""
-
-while machine_blocked == False:
-    wait_forvend()
+wait_for_vend()
