@@ -9,18 +9,17 @@ The "motor" is currently only wired as an LED off of a ground pin, and pin 1
 
 # Installation 
 
-Installation is as follows:
+Use the v0.1.0-alpha release
 
-`wget https://raw.githubusercontent.com/BenIanGifford/scaling-pancake/master/vending_machine.py`
+`wget https://github.com/BenIanGifford/scaling-pancake/archive/refs/tags/alpha.zip`
 
-This is a bad way to install it cause all it will do is downlaod the one file but that is all you really need for now
-
-To run it just do `python3 ./vending_machine.py`
-
+`unzip ./alpha.zip`
 
 # Library setup
 
-This requires the onion-gpio-sysfs library put together by Deric-W
+This requires the onion-gpio-sysfs library put together by Deric-W and the paho-mqtt library from eclipse
+
+## GPIO library
 
 Installation is as follows:
 
@@ -38,3 +37,7 @@ Moves the library file to /usr/lib so it can be imported from anywhere
 
 Then if space is an issue everything else can be removed with
 `rm -rv ./onion-gpio-sysfs-0.3 oniongpio.zip`
+
+## MQTT library
+
+`pip install paho-mqtt`
