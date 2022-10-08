@@ -2,7 +2,20 @@
 
 from time import sleep
 import onionGpio
+import paho.mqtt.client as mqtt 
+import random
+
 machine_blocked = False
+
+broker = 'broker.emqx.io'
+debug_topic = "vending debug"
+port = 1883
+topic = "vending"
+failure = "Vend failed" 
+sucess = "Vend sucess" 
+client_id = f'python-mqtt-{random.randint(0, 1000)}'
+username = 'emqx'
+password = 'public'
 
 output_pins = {1:1, 2:3, 3:0}
 
@@ -35,7 +48,7 @@ def vend_item(item_num):
     check_for_block(item_num)
     if machine_blocked == True:
         print("Blocked")
-        exit()
+        client.publish(debug_topic, failure)
     else:
         output_pins[item_num].setValue(onionGpio.Value.HIGH)
         print("Vending")
@@ -50,20 +63,33 @@ def wait_for_light_gate(port_num):
         sleep(.2)
         if i == 19: 
             print("vend failed")
-            exit()
+            client.publish(debug_topic, failure)
+            break
         elif machine_blocked == False:
             check_for_block(port_num)
             print("Checking")
         elif machine_blocked == True:
             print("Item vended")
-            exit()
+            client.publish(debug_topic, sucess)
+            break
 
-def wait_for_vend():
-    while True:
-        item_to_vend = input("Which item would you like to vend?\n 1, 2, 3,\n>>> ")
-        try:
-            vend_item(int(item_to_vend))
-        except ValueError:
-            print("Must be an intiger")
+def on_connect(client, userdata, flags, rc):
+    print("Connected with result code "+str(rc))
+    client.subscribe(topic)
+    
+def on_message(client, userdata, msg):
+    vend_item(int(msg.payload))
 
-wait_for_vend()
+client = mqtt.Client(client_id)
+client.on_connect = on_connect
+client.on_message = on_message
+
+client.connect(broker, port)
+client.loop_forever()
+#def wait_for_vend():
+#    while True:
+#        item_to_vend = input("Which item would you like to vend?\n 1, 2, 3,\n>>> ")
+#        try:
+#            vend_item(int(item_to_vend))
+#        except ValueError:
+#            print("Must be an intiger")
