@@ -5,7 +5,23 @@ Vending machine code for the onion omega
 
 The light gate is set using a ground pin, 3.3V pin, and pin 2 as sig
 
-The "motor" is currently only wired as an LED off of a ground pin, and pin 1
+The "motors" are currently wired as three LEDs off of a ground pin, and pins 1, 3, and 0
+
+# File desriptions
+
+## vending_machine.py 
+`vending_machine.py` is the main brunt of the code and controls the actual machine functionality.
+Just let it run in the background.
+
+## vending_control.py
+`vending_control.py` is for publishings messages to the machine.
+This will be included in the website later on.
+To use it, run it and enter 1, 2, or 3 to dispense the respective item.
+
+## debug.py 
+`debug.py` is for reading the machines output.
+This will be includeed in the website later on.
+Low functionality except as a monitor
 
 # Installation 
 
